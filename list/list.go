@@ -36,5 +36,21 @@ func (t *Ops) GetList() ([]Item, error) {
 
 // AddItem will insert new items to the list if they don't already exist
 func (t *Ops) AddItem(items []Item) ([]Item, error) {
+	for _, item := range items {
+		res, err := t.Pg.Queries.ExecContext(context.Background(), t.Pg.Db, "add-item", item.Todo, item.Done)
+		if err != nil {
+			return nil, err
+		}
+
+		rows, err := res.RowsAffected()
+		if err != nil {
+			return nil, err
+		}
+
+		if rows != 1 {
+			return nil, fmt.Errorf("did not receive 1 for the number of rows affected, received: %d", rows)
+		}
+	}
+
 	return t.GetList()
 }

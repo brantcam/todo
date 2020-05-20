@@ -16,7 +16,9 @@ type Opts struct {
 // New creates a new instance of a gorilla mux router
 func New(opts Opts) *mux.Router {
 	r := mux.NewRouter()
+
 	r.Methods(http.MethodGet).Path("/").Handler(handlers.GetList(opts.List))
+	r.Methods(http.MethodPost).Path("/add-item").Handler(handlers.AddItem(opts.List))
 
 	return r
 }

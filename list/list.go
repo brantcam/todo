@@ -33,3 +33,8 @@ func (t *Ops) GetList() ([]Item, error) {
 
 	return items, nil
 }
+
+// AddItem will insert new items to the list if they don't already exist
+func (t *Ops) AddItem(items []Item) ([]Item, error) {
+	return t.GetList()
+}

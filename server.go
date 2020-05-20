@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
+	"todo/list"
 	"todo/router"
 	"todo/store/pg"
-	"todo/todo"
 )
 
 func main() {
@@ -16,7 +17,15 @@ func main() {
 		log.Fatalf("failed to establish connection to postgres db: %v", err)
 	}
 
-	todo := todo.Ops{Pg: db}
+	router := router.New(router.Opts{
+		List: &list.Ops{Pg: db},
+	})
 
-	router := router.New(router.Opts{Todo: todo})
+	srv := http.Server{
+		Addr:    ":8080",
+		Handler: router,
+	}
+
+	log.Printf("listening on port %s", srv.Addr)
+	log.Fatal(srv.ListenAndServe())
 }

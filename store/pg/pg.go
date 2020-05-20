@@ -18,7 +18,7 @@ type Conn struct {
 // New returns a new instance of Conn
 func New(ctx context.Context) (*Conn, error) {
 	// get queries from sql file
-	queries, err := dotsql.LoadFromFile("../sql/todo.sql")
+	queries, err := dotsql.LoadFromFile("./store/sql/todo.sql")
 	if err != nil {
 		return nil, err
 	}

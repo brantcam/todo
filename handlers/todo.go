@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"net/http"
-	"todo/todo"
+	"todo/list"
 )
 
 // GetList will return all items on the todo list
-func GetList(t todo.Repo) http.HandlerFunc {
+func GetList(t list.Repo) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		listItems, err := t.GetList()
 		if err != nil {

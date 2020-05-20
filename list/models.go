@@ -1,4 +1,4 @@
-package todo
+package list
 
 // Repo contains all the functionality of todo
 type Repo interface {

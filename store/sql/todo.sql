@@ -1,4 +1,4 @@
 -- Queries --
 
--- get-all
-SELECT * FROM list
+-- name: get-all
+SELECT * FROM list;

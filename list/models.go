@@ -2,11 +2,11 @@ package list
 
 // Repo contains all the functionality of todo
 type Repo interface {
-	GetList() ([]ListItem, error)
+	GetList() ([]Item, error)
 }
 
-// ListItem is an item in a todo list
-type ListItem struct {
-	ID   int64
+// Item is an item in a todo list
+type Item struct {
 	Todo string
+	Done bool
 }

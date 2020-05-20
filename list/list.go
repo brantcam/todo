@@ -2,6 +2,7 @@ package list
 
 import (
 	"context"
+	"fmt"
 	"todo/store/pg"
 )
 
@@ -11,21 +12,24 @@ type Ops struct {
 }
 
 // GetList returns all todo items in the postgres db
-func (t *Ops) GetList() ([]ListItem, error) {
+func (t *Ops) GetList() ([]Item, error) {
 	rows, err := t.Pg.Queries.QueryContext(context.Background(), t.Pg.Db, "get-all")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	items := make([]*ListItem, 0)
+	items := make([]Item, 0)
 	for rows.Next() {
-		item := &ListItem{}
-		if err := rows.Scan(&item.ID, &item.Todo); err != nil {
+		item := Item{}
+		if err := rows.Scan(&item.Todo, &item.Done); err != nil {
 			return nil, err
 		}
 		items = append(items, item)
 	}
-	listItems := make([]ListItem, 0)
-	return listItems, nil
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error occured while reading rows: %s", err)
+	}
+
+	return items, nil
 }

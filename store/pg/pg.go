@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"todo/config"
 
 	"github.com/gchaincl/dotsql"
 	_ "github.com/lib/pq"
@@ -16,14 +17,14 @@ type Conn struct {
 }
 
 // New returns a new instance of Conn
-func New(ctx context.Context) (*Conn, error) {
+func New(ctx context.Context, c *config.Config) (*Conn, error) {
 	// get queries from sql file
 	queries, err := dotsql.LoadFromFile("./store/sql/todo.sql")
 	if err != nil {
 		return nil, err
 	}
 	// todo - put these vars in a config that gets passed to this function
-	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s, dbname=%s sslmode=disable", "localhost", "5432", "todouser", "todopass", "todoname"))
+	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s, dbname=%s sslmode=disable", c.DBHost, c.DBPort, c.DBUser, c.DBPass, c.DBName))
 	if err != nil {
 		return nil, err
 	}

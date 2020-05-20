@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"todo/router"
 	"todo/store/pg"
 	"todo/todo"
 )
@@ -16,4 +17,6 @@ func main() {
 	}
 
 	todo := todo.Ops{Pg: db}
+
+	router := router.New(router.Opts{Todo: todo})
 }
